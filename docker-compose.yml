@@ -1,0 +1,35 @@
+services:
+  mysql:
+    image: mysql:8.3
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: clausehound
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  clausehound:
+    build: .
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      ODBC_DSN: MySQL_DSN
+      ODBC_USER: root
+      ODBC_PASS: root
+    ports:
+      - "8081:8081"
+    volumes:
+      - .:/app
+    working_dir: /app
+
+volumes:
+  mysql_data:
