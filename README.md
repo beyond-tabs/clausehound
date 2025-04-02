@@ -38,6 +38,14 @@ This is based on a PHP service which at the moment is substantially more capable
    }
    ```
 
+   Or
+
+   ```
+   curl -X POST http://localhost:8081/match \
+      -H "Content-Type: application/json" \
+      -d '{"text": "avionics"}'
+   ```
+
    ```
    {
     "matches": [

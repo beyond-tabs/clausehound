@@ -1,4 +1,12 @@
-:- module(matching_ranking, [match_entity/6, match_and_rank_text/3, load_named_entities/0, matches_to_json/2, start_server/0]).
+:- module(matching_ranking, [
+    named_entity/5,
+    match_entity/6, 
+    match_and_rank_text/3, 
+    load_named_entities/0, 
+    insert_named_entities_from_rows/1, 
+    matches_to_json/2, 
+    start_server/0
+]).
 
 :- use_module(library(odbc)).
 :- use_module(library(lists)).
@@ -63,6 +71,15 @@ normalize_text(Text, NormalizedTokens) :-
 
 :- dynamic named_entity/5.
 
+insert_named_entities_from_rows(Rows) :-
+    retractall(named_entity(_,_,_,_,_)),
+    forall(member(row(Id, Name, Type, Weight, KeywordsAtom), Rows), (
+        atom_json_term(KeywordsAtom, KeywordsRaw, []),
+        maplist(string_lower, KeywordsRaw, LowercaseStrings),
+        maplist(atom_string, LowercaseAtoms, LowercaseStrings),
+        assertz(named_entity(Id, Name, Type, LowercaseAtoms, Weight))
+    )).
+
 load_named_entities :-
     ( getenv('ODBC_DSN', Dsn) -> true ; Dsn = 'MySQL_DSN' ),
     ( getenv('ODBC_USER', User) -> true ; User = 'root' ),
@@ -77,14 +94,7 @@ load_named_entities :-
             row(Id, Name, Type, Weight, KeywordsAtom)
         ),
         Rows),
-
-    retractall(named_entity(_,_,_,_,_)),
-    forall(member(row(Id, Name, Type, Weight, KeywordsAtom), Rows), (
-        atom_json_term(KeywordsAtom, KeywordsRaw, []),
-        maplist(string_lower, KeywordsRaw, LowercaseStrings),
-        maplist(atom_string, LowercaseAtoms, LowercaseStrings),
-        assertz(named_entity(Id, Name, Type, LowercaseAtoms, Weight))
-    )).
+    insert_named_entities_from_rows(Rows).
 
 % --- Matching Logic ---
 
