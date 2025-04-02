@@ -2,9 +2,9 @@
 
 Clausehound is a lightweight Prolog-based matching and ranking engine for named entities in natural language text.
 
-It tokenizes input text, applies exact and fuzzy pattern matching against known entities, ranks matches by weighted scores, and supports rule-based boosting.
+It tokenizes input text, applies exact pattern matching against known entities and ranks matches by weighted scores.
 
-This is based on a PHP service which at the moment is substantially more capable than this Prolog port. I shall try to add the remaining features in due course. At the moment though, this is to be treated as an experiment, also considering that it wouldn't have been possible without the help of LLMs.
+This is based on a PHP service which at the moment is substantially more capable than this initial Prolog port. I shall try to add the remaining features in due course. At the moment though, this is to be treated as an experiment, also considering that it wouldn't have been possible without the help of LLMs.
 
 ## Requirements
 
