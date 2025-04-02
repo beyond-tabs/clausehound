@@ -8,7 +8,7 @@
 :- use_module(library(http/http_json)).
 :- use_module(library(http/json)).
 
-:- debug(clausehound).
+:- debug(prolog_matcher).
 
 % --- HTTP Server ---
 
@@ -30,7 +30,7 @@ handle_match(Request) :-
     reply_json_dict(_{matches: Matches}).
 
 log(Label, Value) :-
-    debug(clausehound, "~w = ~w~n", [Label, Value]).
+    debug(prolog_matcher, "~w = ~w~n", [Label, Value]).
 
 % --- Stopwords & Symbol Replacements ---
 

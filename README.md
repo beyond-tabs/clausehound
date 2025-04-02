@@ -1,6 +1,6 @@
-# Clausehound
+# prolog-matcher
 
-Clausehound is a lightweight Prolog-based matching and ranking engine for named entities in natural language text.
+prolog-matcher is a lightweight Prolog-based matching and ranking engine for named entities in natural language text.
 
 It tokenizes input text, applies exact pattern matching against known entities and ranks matches by weighted scores.
 

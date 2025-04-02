@@ -4,7 +4,7 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: clausehound
+      MYSQL_DATABASE: prolog_matcher
     ports:
       - "3306:3306"
     volumes:
@@ -16,7 +16,7 @@ services:
       timeout: 3s
       retries: 10
 
-  clausehound:
+  prolog_matcher:
     build: .
     depends_on:
       mysql:
